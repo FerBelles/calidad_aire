@@ -58,10 +58,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  TextEditingController nameController = TextEditingController();
+  TextEditingController pm10Controller = TextEditingController(text: '0');
+  TextEditingController pm25Controller = TextEditingController(text: '0');
+  TextEditingController o3Controller = TextEditingController(text: '0');
+  TextEditingController so2Controller = TextEditingController(text: '0');
+  TextEditingController no2Controller = TextEditingController(text: '0');
+  TextEditingController coController = TextEditingController(text: '0');
+  String pm10_text = '0';
+  String pm25_text = '0';
+  String o3_text = '0';
+  String so2_text ='0';
+  String no2_text ='0';
+  String co_text ='0';
   String statement = '';
   String result = '';
+  Color result_color = Colors.black;
 
  final url = Uri.parse("https://calidad-aire-entrega2.onrender.com/calidad_aire");
  //final url = Uri.parse("http://localhost:8080/calc");
@@ -70,6 +81,13 @@ final headers = { "Content-Type": "application/json;charset=UTF-8"};
 
  void callModel() async {
        print('antlr model...');
+       statement = 'PM10: ' + pm10_text + ' \\r\\n ' +
+                    'PM2.5: ' + pm25_text + ' \\r\\n ' + 
+                    'O3: ' + o3_text + ' \\r\\n ' +
+                    'SO2: ' + so2_text + ' \\r\\n ' +
+                    'NO2: ' + no2_text + ' \\r\\n ' +
+                    'CO: ' + co_text + ' \\r\\n ' +
+                    ' \$\\r\\n ';
        print(statement);
 
        try {
@@ -81,11 +99,26 @@ final headers = { "Content-Type": "application/json;charset=UTF-8"};
      if (res.statusCode == 200) {
         final json_prediction = (res.body);
             setState(() {
-
+      
              result = res.body;
+             result = clean_result(result);
             
             });
         print(  json_prediction);
+
+        if(result.contains('buena')){
+          result_color = Colors.green;
+        }else if(result.contains('aceptable')){
+          result_color = Colors.yellow;
+        }else if(result.contains('extremadamente mala')){
+          result_color = Colors.purple;
+        }else if(result.contains('muy mala')){
+          result_color = Colors.red;
+        }else if(result.contains('mala')){
+          result_color = Colors.orange;
+        }else{
+          result_color = Colors.black;
+        }
      }
      else {       print('error');
      }
@@ -93,17 +126,13 @@ final headers = { "Content-Type": "application/json;charset=UTF-8"};
    }
 }
 
-
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  String clean_result(String text){
+    List<String> body = text.split(":");
+    text = body[1];
+    text = text.replaceAll("\"", "");
+    text = text.replaceAll("}", "");
+    text = text.replaceAll("\\r\\n", "");
+    return text;
   }
 
   @override
@@ -142,7 +171,7 @@ final headers = { "Content-Type": "application/json;charset=UTF-8"};
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: <Widget>[ /*                  RENGLON ORIGINAL AQUI!!!!!!!!!!!
             TextField(
                   controller: nameController,
                   maxLines: null,
@@ -158,8 +187,133 @@ final headers = { "Content-Type": "application/json;charset=UTF-8"};
                       //fullName = nameController.text;
                     });
                   },
+                ), */
+            Padding(padding: const EdgeInsets.all(8.0)),
+
+            TextField(
+                  controller: pm10Controller,
+                  style: TextStyle(fontSize: 25.0),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'PM10',
+                    labelStyle: TextStyle(fontSize: 30.0),
+                    
+                  ),
+                  onChanged: (pm10_state) {
+                    setState(() {
+                      pm10_text = pm10_state;
+                      //you can access nameController in its scope to get
+                      // the value of text entered as shown below
+                      //fullName = nameController.text;
+                    });
+                  },
                 ),
 
+            Padding(padding: const EdgeInsets.all(8.0)),
+
+
+            TextField(
+                  controller: pm25Controller,
+                  style: TextStyle(fontSize: 25.0),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'PM2.5',
+                    labelStyle: TextStyle(fontSize: 30.0)
+                  ),
+                  onChanged: (pm25_state) {
+                    setState(() {
+                      pm25_text = pm25_state;
+                      //you can access nameController in its scope to get
+                      // the value of text entered as shown below
+                      //fullName = nameController.text;
+                    });
+                  },
+                ),
+
+            Padding(padding: const EdgeInsets.all(8.0)),
+
+
+            TextField(
+                  controller: o3Controller,
+                  style: TextStyle(fontSize: 25.0),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'O3',
+                    labelStyle: TextStyle(fontSize: 30.0)
+                  ),
+                  onChanged: (o3_state) {
+                    setState(() {
+                      o3_text = o3_state;
+                      //you can access nameController in its scope to get
+                      // the value of text entered as shown below
+                      //fullName = nameController.text;
+                    });
+                  },
+                ),
+
+            Padding(padding: const EdgeInsets.all(8.0)),
+
+
+            TextField(
+                  controller: so2Controller,
+                  style: TextStyle(fontSize: 25.0),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'SO2',
+                    labelStyle: TextStyle(fontSize: 30.0)
+                  ),
+                  onChanged: (so2_state) {
+                    setState(() {
+                      so2_text = so2_state;
+                      //you can access nameController in its scope to get
+                      // the value of text entered as shown below
+                      //fullName = nameController.text;
+                    });
+                  },
+                ),
+
+            Padding(padding: const EdgeInsets.all(8.0)),
+
+
+            TextField(
+                  controller: no2Controller,
+                  style: TextStyle(fontSize: 25.0),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'NO2',
+                    labelStyle: TextStyle(fontSize: 30.0)
+                  ),
+                  onChanged: (no2_state) {
+                    setState(() {
+                      no2_text = no2_state;
+                      //you can access nameController in its scope to get
+                      // the value of text entered as shown below
+                      //fullName = nameController.text;
+                    });
+                  },
+                ),
+
+            Padding(padding: const EdgeInsets.all(8.0)),
+
+
+            TextField(
+                  controller: coController,
+                  style: TextStyle(fontSize: 25.0),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'CO',
+                    labelStyle: TextStyle(fontSize: 30.0)
+                  ),
+                  onChanged: (co_state) {
+                    setState(() {
+                      co_text = co_state;
+                      //you can access nameController in its scope to get
+                      // the value of text entered as shown below
+                      //fullName = nameController.text;
+                    });
+                  },
+                ),
+            /*
             Container(
               margin: EdgeInsets.all(20),
               child: Text("{ statement : '" + statement + "'}"),
@@ -167,18 +321,37 @@ final headers = { "Content-Type": "application/json;charset=UTF-8"};
             const Text(
               'Calling api ... ',
             ),
+            */
+
+            Padding(padding: const EdgeInsets.all(8.0)),
+
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: result_color,
+                  width: 2.0,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              width: double.infinity,
+              child: Text(
+                '$result',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            )
+            /*
             Text(
               '$result',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
- 
+ */
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: callModel,
         tooltip: 'Enviar',
-        child: const Icon(Icons.add),
+        child: const Text('Enviar'),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

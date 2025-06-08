@@ -115,12 +115,12 @@ public class Listener extends calidad_aireBaseListener {
                 resString += "Calidad de aire aceptable \r\n";
             }else{
                 if(valor == 3){
-                    resString += "Calidad de aire mala, se recomienda tomar medidas prventivas \r\n";
+                    resString += "Calidad de aire mala, se recomienda tomar medidas preventivas \r\n";
                 }else{
                     if(valor == 2){
                         resString += "Calidad de aire muy mala, se recomienda tomar medidas de alerta \r\n";                         
                     }else{
-                        resString += "Calidad de aire extremadamente mala, se recomeidna tomar medidas de emergencia \r\n";
+                        resString += "Calidad de aire extremadamente mala, se recomienda tomar medidas de emergencia \r\n";
                     }
                 }
             }
