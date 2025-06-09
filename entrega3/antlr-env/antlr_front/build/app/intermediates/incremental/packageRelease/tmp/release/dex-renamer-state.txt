@@ -1,0 +1,4 @@
+#Mon Jun 09 16:04:11 CST 2025
+base.0=C\:\\Users\\Usuario\\Documents\\compilers_last\\calidad_aire\\entrega3\\antlr-env\\antlr_front\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
